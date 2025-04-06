@@ -266,10 +266,20 @@
       canvas.height = h;
     });
 
-    // 点击时触发烟花
-    window.addEventListener("click", (e) => {
-      createFirework(e.clientX, e.clientY); // 点击时创建烟花
-    });
+   // 点击空白区域时触发烟花效果
+window.addEventListener("click", (e) => {
+  // 确保点击的是空白区域，而不是气球
+  if (!e.target.classList.contains("balloon")) {
+    createFirework(e.clientX, e.clientY); // 空白区域点击时创建烟花
+  }
+});
+
+// 为气球添加点击事件，阻止事件传播
+document.querySelectorAll('.balloon').forEach((balloon) => {
+  balloon.addEventListener("click", (e) => {
+    e.stopPropagation(); // 阻止事件传播，防止触发空白区域的点击事件
+  });
+});
   </script>
 </body>
 </html>
