@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+  <title>生日快乐！</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: "Segoe UI", sans-serif;
+      background: radial-gradient(circle at center, #1a1a2e 0%, #000000 100%);
+      overflow: hidden;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 4rem;
+      color: #fff;
+      text-align: center;
+      margin-top: 10vh;
+      animation: glow 2s ease-in-out infinite alternate, colorChange 4s infinite alternate;
+      position: relative;
+      z-index: 2;
+    }
+
+    p {
+      font-size: 2rem;
+      color: #fff;
+      text-align: center;
+      margin-top: 2vh;
+      z-index: 2;
+      position: relative;
+      animation: fadeIn 2s ease-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px #fff, 0 0 20px #ff00cc;
+      }
+      to {
+        text-shadow: 0 0 20px #fff, 0 0 30px #ff00cc;
+      }
+    }
+
+    @keyframes colorChange {
+      0% {
+        color: #ff66cc;
+      }
+      50% {
+        color: #66ccff;
+      }
+      100% {
+        color: #ffcc66;
+      }
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 0.7;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    .balloon {
+      position: absolute;
+      bottom: -150px;
+      width: 80px;
+      height: 110px;
+      background: linear-gradient(145deg, rgba(255, 105, 180, 0.8), rgba(255, 182, 193, 0.8));
+      border-radius: 50% 50% 45% 45%;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.2);
+      animation: float 6s ease-in infinite;
+      z-index: 1;
+      cursor: pointer;
+      transition: transform 0.5s ease-out;
+    }
+
+    .balloon::after {
+      content: "";
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      width: 2px;
+      height: 30px;
+      background: #fff;
+      transform: translateX(-50%);
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) translateX(0);
+      }
+      50% {
+        transform: translateY(-50vh) translateX(2vw);
+      }
+      100% {
+        transform: translateY(-100vh) translateX(-2vw);
+      }
+    }
+
+    .balloon:nth-child(1) { left: 10%; background: linear-gradient(145deg, rgba(255, 66, 204, 0.8), rgba(255, 105, 180, 0.8)); animation-delay: 0s; }
+    .balloon:nth-child(2) { left: 30%; background: linear-gradient(145deg, rgba(102, 204, 255, 0.8), rgba(66, 166, 255, 0.8)); animation-delay: 1s; }
+    .balloon:nth-child(3) { left: 50%; background: linear-gradient(145deg, rgba(153, 255, 153, 0.8), rgba(102, 255, 102, 0.8)); animation-delay: 2s; }
+    .balloon:nth-child(4) { left: 70%; background: linear-gradient(145deg, rgba(255, 204, 102, 0.8), rgba(255, 187, 102, 0.8)); animation-delay: 3s; }
+    .balloon:nth-child(5) { left: 90%; background: linear-gradient(145deg, rgba(255, 153, 153, 0.8), rgba(255, 102, 102, 0.8)); animation-delay: 4s; }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    audio {
+      display: none;
+    }
+
+    /* 媒体查询：适配手机 */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 5vw;
+        margin-top: 20vh;
+      }
+
+      p {
+        font-size: 4vw;
+      }
+
+      .balloon {
+        width: 12vw;
+        height: 16vw;
+      }
+    }
+
+    /* 媒体查询：适配平板 */
+    @media (min-width: 768px) and (max-width: 1024px) {
+      h1 {
+        font-size: 5rem;
+        margin-top: 15vh;
+      }
+
+      p {
+        font-size: 2.5rem;
+      }
+
+      .balloon {
+        width: 8vw;
+        height: 10vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>🎂 生日快乐！</h1>
+  <p>愿你每天都像烟花一样精彩绽放！</p>
+
+  <!-- 气球动画 -->
+  <div class="balloon" id="balloon1"></div>
+  <div class="balloon" id="balloon2"></div>
+  <div class="balloon" id="balloon3"></div>
+  <div class="balloon" id="balloon4"></div>
+  <div class="balloon" id="balloon5"></div>
+
+  <!-- 烟花 canvas -->
+  <canvas id="fireworks"></canvas>
+
+  <!-- 背景音乐（自动播放） -->
+  <audio autoplay loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // 烟花效果（canvas）
+    const canvas = document.getElementById("fireworks");
+    const ctx = canvas.getContext("2d");
+    let w = window.innerWidth;
+    let h = window.innerHeight;
+    canvas.width = w;
+    canvas.height = h;
+
+    const fireworks = [];
+
+    function random(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    function createFirework(x, y) {
+      const count = 80;
+      const firework = [];
+      for (let i = 0; i < count; i++) {
+        const angle = (Math.PI * 2 * i) / count;
+        const speed = random(2, 5);
+        firework.push({
+          x,
+          y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          alpha: 1,
+          radius: random(1, 3),
+          color: `hsl(${Math.floor(random(0, 360))}, 100%, 60%)`
+        });
+      }
+      fireworks.push(firework);
+    }
+
+    function animate() {
+      ctx.fillStyle = "rgba(0,0,0,0.2)";
+      ctx.fillRect(0, 0, w, h);
+
+      for (let i = fireworks.length - 1; i >= 0; i--) {
+        const firework = fireworks[i];
+        for (let j = firework.length - 1; j >= 0; j--) {
+          const p = firework[j];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.alpha -= 0.01;
+          if (p.alpha <= 0) firework.splice(j, 1);
+          else {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${hexToRgb(p.color)},${p.alpha})`;
+            ctx.fill();
+          }
+        }
+        if (firework.length === 0) fireworks.splice(i, 1);
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    function hexToRgb(hsl) {
+      const temp = document.createElement("div");
+      temp.style.color = hsl;
+      document.body.appendChild(temp);
+      const rgb = getComputedStyle(temp).color;
+      document.body.removeChild(temp);
+      return rgb.match(/\d+,\s*\d+,\s*\d+/)[0];
+    }
+
+    setInterval(() => {
+      const randomX = random(100, w - 100);
+      const randomY = random(50, h / 2);
+      createFirework(randomX, randomY); // 定时创建烟花
+    }, 1000);
+
+    animate();
+
+    window.addEventListener("resize", () => {
+      w = window.innerWidth;
+      h = window.innerHeight;
+      canvas.width = w;
+      canvas.height = h;
+    });
+
+    // 点击时触发烟花
+    window.addEventListener("click", (e) => {
+      createFirework(e.clientX, e.clientY); // 点击时创建烟花
+    });
+  </script>
+</body>
+</html>
