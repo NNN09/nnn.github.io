@@ -5,11 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
   <title>生日快乐！</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     html, body {
       width: 100%;
@@ -41,36 +37,20 @@
     }
 
     @keyframes glow {
-      from {
-        text-shadow: 0 0 10px #fff, 0 0 20px #ff00cc;
-      }
-      to {
-        text-shadow: 0 0 20px #fff, 0 0 30px #ff00cc;
-      }
+      from { text-shadow: 0 0 10px #fff, 0 0 20px #ff00cc; }
+      to   { text-shadow: 0 0 20px #fff, 0 0 30px #ff00cc; }
     }
 
     @keyframes colorChange {
-      0% {
-        color: #ff66cc;
-      }
-      50% {
-        color: #66ccff;
-      }
-      100% {
-        color: #ffcc66;
-      }
+      0%   { color: #ff66cc; }
+      50%  { color: #66ccff; }
+      100% { color: #ffcc66; }
     }
 
     @keyframes fadeIn {
-      0% {
-        opacity: 0;
-      }
-      50% {
-        opacity: 0.7;
-      }
-      100% {
-        opacity: 1;
-      }
+      0%   { opacity: 0; }
+      50%  { opacity: 0.7; }
+      100% { opacity: 1; }
     }
 
     .balloon {
@@ -78,13 +58,12 @@
       bottom: -150px;
       width: 80px;
       height: 110px;
-      background: linear-gradient(145deg, rgba(255, 105, 180, 0.8), rgba(255, 182, 193, 0.8));
       border-radius: 50% 50% 45% 45%;
       box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(255, 255, 255, 0.2);
-      animation: float 6s ease-in infinite;
+      animation: float 10s ease-in infinite;
       z-index: 1;
       cursor: pointer;
-      transition: transform 0.5s ease-out;
+      transition: transform 0.5s ease-out, opacity 0.5s ease-out;
     }
 
     .balloon::after {
@@ -99,22 +78,17 @@
     }
 
     @keyframes float {
-      0% {
-        transform: translateY(0) translateX(0);
-      }
-      50% {
-        transform: translateY(-50vh) translateX(2vw);
-      }
-      100% {
-        transform: translateY(-100vh) translateX(-2vw);
-      }
+      0%   { transform: translateY(0) translateX(0); }
+      50%  { transform: translateY(-50vh) translateX(2vw); }
+      100% { transform: translateY(-100vh) translateX(-2vw); }
     }
 
-    .balloon:nth-child(1) { left: 10%; background: linear-gradient(145deg, rgba(255, 66, 204, 0.8), rgba(255, 105, 180, 0.8)); animation-delay: 0s; }
-    .balloon:nth-child(2) { left: 30%; background: linear-gradient(145deg, rgba(102, 204, 255, 0.8), rgba(66, 166, 255, 0.8)); animation-delay: 1s; }
-    .balloon:nth-child(3) { left: 50%; background: linear-gradient(145deg, rgba(153, 255, 153, 0.8), rgba(102, 255, 102, 0.8)); animation-delay: 2s; }
-    .balloon:nth-child(4) { left: 70%; background: linear-gradient(145deg, rgba(255, 204, 102, 0.8), rgba(255, 187, 102, 0.8)); animation-delay: 3s; }
-    .balloon:nth-child(5) { left: 90%; background: linear-gradient(145deg, rgba(255, 153, 153, 0.8), rgba(255, 102, 102, 0.8)); animation-delay: 4s; }
+    #balloon-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
 
     canvas {
       position: fixed;
@@ -129,62 +103,68 @@
       display: none;
     }
 
-    /* 媒体查询：适配手机 */
     @media (max-width: 768px) {
-      h1 {
-        font-size: 5vw;
-        margin-top: 20vh;
-      }
-
-      p {
-        font-size: 4vw;
-      }
-
-      .balloon {
-        width: 12vw;
-        height: 16vw;
-      }
+      h1 { font-size: 5vw; margin-top: 20vh; }
+      p { font-size: 4vw; }
+      .balloon { width: 12vw; height: 16vw; }
     }
 
-    /* 媒体查询：适配平板 */
     @media (min-width: 768px) and (max-width: 1024px) {
-      h1 {
-        font-size: 5rem;
-        margin-top: 15vh;
-      }
-
-      p {
-        font-size: 2.5rem;
-      }
-
-      .balloon {
-        width: 8vw;
-        height: 10vw;
-      }
+      h1 { font-size: 5rem; margin-top: 15vh; }
+      p { font-size: 2.5rem; }
+      .balloon { width: 8vw; height: 10vw; }
     }
+#danmu-container {
+  position: fixed;
+  top: 10%;
+  left: 0;
+  width: 100%;
+  height: 80%;
+  pointer-events: none;
+  z-index: 3;
+  overflow: hidden;
+}
+
+.danmu {
+  position: absolute;
+  white-space: nowrap;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 0 5px #000;
+  animation: danmuMove 12s linear forwards;
+}
+
+@keyframes danmuMove {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
   </style>
 </head>
 <body>
   <h1>🎂 生日快乐！</h1>
   <p>愿你每天都像烟花一样精彩绽放！</p>
 
-  <!-- 气球动画 -->
-  <div class="balloon" id="balloon1"></div>
-  <div class="balloon" id="balloon2"></div>
-  <div class="balloon" id="balloon3"></div>
-  <div class="balloon" id="balloon4"></div>
-  <div class="balloon" id="balloon5"></div>
+<div id="danmu-container"></div>
+
+  <!-- 气球容器 -->
+  <div id="balloon-container"></div>
 
   <!-- 烟花 canvas -->
   <canvas id="fireworks"></canvas>
 
-  <!-- 背景音乐（自动播放） -->
+  <!-- 背景音乐 -->
   <audio autoplay loop>
     <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
   </audio>
 
   <script>
-    // 烟花效果（canvas）
+    // 烟花逻辑
     const canvas = document.getElementById("fireworks");
     const ctx = canvas.getContext("2d");
     let w = window.innerWidth;
@@ -199,6 +179,8 @@
     }
 
     function createFirework(x, y) {
+      if (fireworks.length > 5) return; // 限制最大烟花数量
+
       const count = 80;
       const firework = [];
       for (let i = 0; i < count; i++) {
@@ -251,13 +233,14 @@
       return rgb.match(/\d+,\s*\d+,\s*\d+/)[0];
     }
 
-    setInterval(() => {
-      const randomX = random(100, w - 100);
-      const randomY = random(50, h / 2);
-      createFirework(randomX, randomY); // 定时创建烟花
-    }, 1000);
-
     animate();
+
+
+setInterval(() => {
+  const x = Math.random() * window.innerWidth;
+  const y = Math.random() * window.innerHeight * 0.6; // 让烟花主要在上方区域
+  createFirework(x, y);
+}, 1000);
 
     window.addEventListener("resize", () => {
       w = window.innerWidth;
@@ -266,29 +249,112 @@
       canvas.height = h;
     });
 
-    // 点击时触发烟花
     window.addEventListener("click", (e) => {
-      createFirework(e.clientX, e.clientY); // 点击时创建烟花
+      createFirework(e.clientX, e.clientY);
     });
 
-// 为每个气球添加点击事件监听器
-const balloons = document.querySelectorAll('.balloon');
-balloons.forEach(balloon => {
-  balloon.addEventListener('click', (e) => {
-    e.stopPropagation(); // 阻止事件冒泡到 window，避免重复触发
+    // 气球逻辑
+    const balloonContainer = document.getElementById("balloon-container");
 
-    // 获取气球中心点坐标
-    const rect = balloon.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
+    function setupBalloonClick(balloon) {
+      balloon.addEventListener('click', (e) => {
+        e.stopPropagation();
 
-    createFirework(centerX, centerY); // 在气球中心触发烟花
-balloon.style.transition = 'transform 0.3s, opacity 0.3s';
-balloon.style.transform = 'scale(0)';
-balloon.style.opacity = '0';
-balloon.remove()
-  });
-});
+        const rect = balloon.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        createFirework(centerX, centerY);
+
+        balloon.style.transform = 'scale(0)';
+        balloon.style.opacity = '0';
+
+        balloon.addEventListener('transitionend', () => {
+          balloon.remove();
+          addBalloon();
+        }, { once: true });
+      });
+    }
+
+    function addBalloon() {
+      const balloon = document.createElement("div");
+      balloon.className = "balloon";
+      balloon.style.left = `${random(5, 90)}%`;
+
+      const colors = [
+        'rgba(255, 66, 204, 0.8)', 'rgba(102, 204, 255, 0.8)',
+        'rgba(153, 255, 153, 0.8)', 'rgba(255, 204, 102, 0.8)',
+        'rgba(255, 153, 153, 0.8)'
+      ];
+      const c1 = colors[Math.floor(Math.random() * colors.length)];
+      const c2 = colors[Math.floor(Math.random() * colors.length)];
+      balloon.style.background = `linear-gradient(145deg, ${c1}, ${c2})`;
+      balloon.style.animationDelay = `${random(0, 4)}s`;
+
+      balloonContainer.appendChild(balloon);
+      setupBalloonClick(balloon);
+    }
+
+    // 初始化生成5个气球
+    for (let i = 0; i < 5; i++) {
+      addBalloon();
+    }
+
+//弹幕
+const danmuTexts = [
+  "生日快乐！🎂",
+  "愿你天天开心，岁岁平安✨",
+  "心想事成，幸福美满！🎉",
+  "愿你被世界温柔以待💖",
+  "吃好喝好玩得好！🎈",
+  "愿你笑容灿烂如夏花🌸",
+  "今天是你的专属节日🥳",
+  "祝你好运连连，好事成双🍀",
+  "永远年轻，永远热泪盈眶💫",
+  "希望你的一生都可以像今天一样璀璨💎",
+  "祝你生活甜蜜，事业顺利🏆",
+  "愿你有大把的时间去追梦🌟",
+  "一路走好，开心每一天🌈",
+  "生活因为你而更加精彩🌟",
+  "愿你开心每一刻，感恩每一天🙏",
+  "岁月静好，安然无恙⏳",
+  "愿你勇敢无畏，充满希望🔥",
+  "每一天都是全新的一天，祝福你前行的路上永远有阳光☀️",
+  "所有的美好都属于你，生日快乐💖",
+  "感谢你带给我们无数的欢笑，继续绽放光芒✨",
+  "祝你和家人平安健康，心想事成👨‍👩‍👧‍👦",
+  "愿你的人生如诗如画，温柔且坚定🖋️",
+  "每天都拥有一个美好的心情😊",
+  "愿你与幸福相伴，快乐永远陪伴在你左右🎶"
+];
+
+// 创建弹幕
+function launchDanmu(text) {
+  const danmu = document.createElement("div");
+  danmu.className = "danmu";
+  danmu.innerText = text;
+
+  // 设置随机顶部位置（避免重叠）
+  danmu.style.top = `${Math.random() * 90}%`;
+
+  // 设置随机颜色
+  danmu.style.color = `hsl(${Math.random() * 360}, 100%, 70%)`;
+
+  // 设置随机字体大小
+  danmu.style.fontSize = `${Math.random() * 0.6 + 1}rem`;
+
+  document.getElementById("danmu-container").appendChild(danmu);
+
+  // 移除弹幕
+  setTimeout(() => {
+    danmu.remove();
+  }, 12000); // 跟动画时间一致
+}
+
+// 自动循环生成弹幕
+setInterval(() => {
+  const randomText = danmuTexts[Math.floor(Math.random() * danmuTexts.length)];
+  launchDanmu(randomText);
+}, 5000); // 每1秒一个弹幕
 
   </script>
 </body>
