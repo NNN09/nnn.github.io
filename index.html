@@ -144,11 +144,102 @@
   }
 }
 
+.photo-cube {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  perspective: 1200px;
+  width: 40vw;
+  height: 40vw;
+  max-width: 40vw;
+  max-height: 40vw;
+  z-index: 10;
+}
+
+.cube {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: rotateCube 16s linear infinite;
+  transition: transform 0.6s ease;
+}
+
+.photo-cube:hover .cube {
+  animation-play-state: paused;
+  transform: scale(1.05) rotateX(30deg) rotateY(30deg);
+}
+
+.face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.6s ease;
+}
+
+.face img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.face:hover img {
+  transform: scale(1.08);
+}
+
+/* 3D 位置 – 基于 50% 尺寸（动态适应） */
+  .front  { transform: rotateY(0deg) translateZ(30vw); }
+  .back   { transform: rotateY(180deg) translateZ(30vw); }
+  .right  { transform: rotateY(90deg) translateZ(30vw); }
+  .left   { transform: rotateY(-90deg) translateZ(30vw); }
+  .top    { transform: rotateX(90deg) translateZ(30vw); }
+  .bottom { transform: rotateX(-90deg) translateZ(30vw); }
+
+/* 限制最大 translateZ 防止在大屏太远 */
+@media (min-width: 768px) {
+  .front, .back, .right, .left, .top, .bottom {
+    transform: translateZ(150px) rotateY(0deg); /* will be overwritten by each direction */
+  }
+
+  .front  { transform: rotateY(0deg) translateZ(150px); }
+  .back   { transform: rotateY(180deg) translateZ(150px); }
+  .right  { transform: rotateY(90deg) translateZ(150px); }
+  .left   { transform: rotateY(-90deg) translateZ(150px); }
+  .top    { transform: rotateX(90deg) translateZ(150px); }
+  .bottom { transform: rotateX(-90deg) translateZ(150px); }
+}
+
+@keyframes rotateCube {
+  0%   { transform: rotateX(0deg) rotateY(0deg); }
+  100% { transform: rotateX(360deg) rotateY(360deg); }
+}
   </style>
 </head>
 <body>
   <h1>🎂 生日快乐！</h1>
   <p>愿你每天都像烟花一样精彩绽放！</p>
+
+<div class="photo-cube" id="photoCube">
+  <div class="cube">
+    <div class="face front"><img src="https://picsum.photos/id/1015/300/300" /></div>
+    <div class="face back"><img src="https://picsum.photos/id/1016/300/300" /></div>
+    <div class="face right"><img src="https://picsum.photos/id/1018/300/300" /></div>
+    <div class="face left"><img src="https://picsum.photos/id/1021/300/300" /></div>
+    <div class="face top"><img src="https://picsum.photos/id/1025/300/300" /></div>
+    <div class="face bottom"><img src="https://picsum.photos/id/1027/300/300" /></div>
+  </div>
+</div>
 
 <div id="danmu-container"></div>
 
