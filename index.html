@@ -10,21 +10,37 @@
     html, body {
       width: 100%;
       height: 100%;
-      font-family: "Segoe UI", sans-serif;
-      background: radial-gradient(circle at center, #1a1a2e 0%, #000000 100%);
+  font-family: "Comic Sans MS", "Sniglet", sans-serif;
+background: linear-gradient(120deg, #ffe1ec, #ffd6f6, #ffe8f0, #fff0f5);
+  animation: gradientBackground 15s ease infinite;
       overflow: hidden;
       position: relative;
     }
 
-    h1 {
-      font-size: 4rem;
-      color: #fff;
-      text-align: center;
-      margin-top: 10vh;
-      animation: glow 2s ease-in-out infinite alternate, colorChange 4s infinite alternate;
-      position: relative;
-      z-index: 2;
-    }
+
+@keyframes gradientBackground {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+h1 {
+  font-size: 4rem;
+  color: #fff;
+  text-align: center;
+  margin-top: 10vh;
+  animation: glow 2s ease-in-out infinite alternate, colorChange 4s infinite alternate;
+  position: relative;
+  z-index: 2;
+  background-image: url('./111.png'); /* 使用 Hello Kitty 背景图 */
+  background-repeat: no-repeat; /* 防止背景图重复 */
+  background-size: contain; /* 让背景图填充整个区域 */
+  background-position: left; /* 背景图居中 */
+  padding: 20px; /* 添加内边距 */
+  border-radius: 10px; /* 可选：为标题添加圆角 */
+}
+
+
 
     p {
       font-size: 2rem;
@@ -41,11 +57,11 @@
       to   { text-shadow: 0 0 20px #fff, 0 0 30px #ff00cc; }
     }
 
-    @keyframes colorChange {
-      0%   { color: #ff66cc; }
-      50%  { color: #66ccff; }
-      100% { color: #ffcc66; }
-    }
+@keyframes colorChange {
+  0%   { color: #ff69b4; } /* Hot Pink */
+  50%  { color: #ffc0cb; } /* Pink */
+  100% { color: #ffb6c1; } /* Light Pink */
+}
 
     @keyframes fadeIn {
       0%   { opacity: 0; }
@@ -131,7 +147,8 @@
   font-size: 1.2rem;
   font-weight: bold;
   color: #fff;
-  text-shadow: 0 0 5px #000;
+    font-family: "Comic Sans MS", "Sniglet", sans-serif;
+  text-shadow: 0 0 5px #ffb6c1;
   animation: danmuMove 12s linear forwards;
 }
 
@@ -291,8 +308,7 @@
     }
 
     function animate() {
-      ctx.fillStyle = "rgba(0,0,0,0.2)";
-      ctx.fillRect(0, 0, w, h);
+  ctx.clearRect(0, 0, w, h);
 
       for (let i = fireworks.length - 1; i >= 0; i--) {
         const firework = fireworks[i];
