@@ -271,6 +271,15 @@
       createFirework(e.clientX, e.clientY); // 点击时创建烟花
     });
 
+    // 为每个气球添加点击事件监听器
+  const balloons = document.querySelectorAll('.balloon');
+  balloons.forEach(balloon => {
+    balloon.addEventListener('click', (e) => {
+      const balloonX = e.clientX;
+      const balloonY = e.clientY;
+      createFirework(balloonX, balloonY); // 点击气球时触发烟花
+    });
+  });
 
   </script>
 </body>
